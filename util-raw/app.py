@@ -1,10 +1,12 @@
 # Standard library
-import re
+from json import dumps
+from re import VERBOSE as re_VERBOSE
+from re import compile as re_compile
+from re import sub as re_sub
 
-SKIP_HEADERS = re.compile(
+SKIP_HEADERS = re_compile(
     r"""
     ^gunicorn
-    |^http_host
     |^path
     |^query
     |^raw
@@ -14,29 +16,28 @@ SKIP_HEADERS = re.compile(
     |^server
     |^wsgi
     """,
-    re.VERBOSE,
+    re_VERBOSE,
 )
 
 
 def app(env, start_response):
-    start_response("200 OK", [("Content-Type", "plain/text; charset=UTF-8")])
-    data = []
-    data.append(
-        f"{env['REQUEST_METHOD']} {env['PATH_INFO']} {env['SERVER_PROTOCOL']}"
-    )
-    data.append(f"Host: {env['HTTP_HOST']}")
-    data.append("")
-    info = {}
+    # body
+    data = {}
     for key, value in env.items():
         name = key.lower()
         if SKIP_HEADERS.match(name):
             continue
         name = name.title().replace("_", "-").removeprefix("Http-")
-        info[name] = value
-    del env
-    for key in sorted(info.keys()):
-        value = info[key]
-        data.append(f"{key}: {value}")
-    del info
-    data = "\n".join(data).encode()
-    return [data]
+        name = re_sub("^Cf-", "CF-", name)
+        name = re_sub("-Id$", "-ID", name)
+        name = re_sub("-Ip$", "-IP", name)
+        data[name] = value
+    body = dumps(data, sort_keys=True).encode()
+    # response
+    headers = [
+        ("Cache-Control", "no-store, no-transform, max-age=0"),
+        ("Content-Length", str(len(body))),
+        ("Content-Type", "application/json"),
+    ]
+    start_response("200 OK", headers)
+    return [body]
