@@ -5,18 +5,23 @@
 FROM ghcr.io/benoitc/gunicorn:latest
 
 # https://docs.docker.com/build/building/best-practices/#apt-get
-# - Retrieve new lists of packages, distribution upgrade, install new
-#   packages, erase downloaded archive files, and erase package lists
+# 1. Configure apt to avoid optional packages
+# 2. Configure debconf to use noninteractive frontend
+# 3. Retrieve new lists of packages, distribution upgrade, install new
+#    packages, erase downloaded archive files, erase package lists, and update
+#    certificate authority certificates
 USER root
+COPY docker-slim /etc/apt/apt.conf.d/docker-slim
 RUN set -o errexit -o nounset \
-    && DEBIAN_FRONTEND=noninteractive apt-get update \
-        --no-allow-insecure-repositories --quiet \
-    && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade \
-        --no-install-recommends --no-install-suggests --quiet --yes \
-    && DEBIAN_FRONTEND=noninteractive apt-get install \
-        --no-install-recommends --no-install-suggests --quiet --yes \
+    && sed --regexp-extended --in-place \
+        -e's/^(Templates:.+)$/\1\n# Debconf will select the default answer/' \
+        -e's/(default answer)$/\1\nFrontend: noninteractive/' \
+        /etc/debconf.conf \
+    && apt-get update --quiet \
+    && apt-get dist-upgrade --quiet --yes \
+    && apt-get install --quiet --yes \
         dumb-init \
-    && DEBIAN_FRONTEND=noninteractive apt-get clean --quiet \
+    && apt-get clean --quiet \
     && rm --recursive --force /var/lib/apt/lists/*
 USER gunicorn
 
