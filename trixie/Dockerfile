@@ -16,7 +16,7 @@ COPY dpkg-cfg-socklog-slim /etc/dpkg/dpkg.cfg.d/socklog-slim
 #    certificate authority certificates
 COPY docker-slim /etc/apt/apt.conf.d/docker-slim
 RUN set -o errexit -o nounset \
-    sed --regexp-extended --in-place \
+    && sed --regexp-extended --in-place \
         -e's/^(Templates:.+)$/\1\n# Debconf will select the default answer/' \
         -e's/(default answer)$/\1\nFrontend: noninteractive/' \
         /etc/debconf.conf \
