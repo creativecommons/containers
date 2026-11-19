@@ -5,7 +5,7 @@ name: cc
 
 services:
 
-  # Creative Commons Debian 13 (trixie) slim
+  # Creative Commons Debian 13 (trixie) with runit
   trixie:
     build:
       context: trixie
@@ -14,16 +14,28 @@ services:
     entrypoint: /bin/true
     image: trixie
 
+  # Creative Commons Debian 13 (trixie) with msmtp
+  trixie-msmtp:
+    build:
+      additional_contexts:
+        'ghcr.io/creativecommons/trixie:latest': 'service:trixie'
+      context: trixie-msmtp
+    # disable the entrypoint as the image is only being built locally for use
+    # by other services
+    entrypoint: /bin/true
+    image: trixie-msmtp
+
   # Local development overlay
   trixie-local:
     build:
       additional_contexts:
-        trixie: "service:trixie"
+        trixie-msmtp: "service:trixie-msmtp"
       context: trixie-local
     command: sh -c 'echo "CMD ignored? (this should NOT show up in console)"'
     env_file: .env
     image: trixie-local
 
+  # HTTP header mirror utility
   util-raw:
     build:
       context: util-raw
