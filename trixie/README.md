@@ -1,11 +1,11 @@
 # CC Debian trixie
 
-Creative Commons (CC) Debian 13 (trixie) Docker base image
+Creative Commons (CC) Debian 13 (trixie) with runit Docker image.
 
 
 ## Overview
 
-The goal of the CC Debian trixie base image is to provide a consistent platform
+The goal of the CC Debian trixie image is to provide a consistent platform
 for application images.
 
 - **Docker `FROM` image:** [`debian:trixie-slim`][docker-trixie]
@@ -15,14 +15,8 @@ for application images.
   1. `dumb-init` to manage processes (init, PID 1)
   2. `runit` to manage services
   3. `socklog` to send syslog messages to init stdout (docker log)
-  4. `msmtp` to allow sending emails
 - **Required variables:**
-  - `MSMTP_FROM_EMAIL`
-  - `MSMTP_MAILNAME`
-  - `MSMTP_ROOT_EMAIL`
-  - `MSMTP_SERVER_HOST`
-  - `MSMTP_SERVER_PASSWORD`
-  - `MSMTP_SERVER_USER`
+  - _none_
 
 > [!NOTE]
 > `CMD` is ignored by this image. Instead service(s) must be installed and
@@ -104,15 +98,3 @@ Runit service related documentation:
 
 [docker-trixie]: https://hub.docker.com/_/debian
 [trixie-release]: https://www.debian.org/releases/trixie/release-notes/index.en.html
-
-
-### msmtp
-
-- [msmtp - about][msmtp]
-  - [msmtp manual in HTML format][msmtp-man]
-- [msmtp(1) — msmtp — Debian trixie — Debian Manpages][msmtp-debman]
-
-
-[msmtp]: https://marlam.de/msmtp/
-[msmtp-man]: https://marlam.de/msmtp/msmtp.html
-[msmtp-debman]: https://manpages.debian.org/trixie/msmtp/msmtp.1.en.html

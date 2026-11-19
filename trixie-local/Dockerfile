@@ -1,7 +1,7 @@
 # https://docs.docker.com/engine/reference/builder/
 
 # hadolint ignore=DL3006
-FROM trixie
+FROM trixie-sys
 
 # https://docs.docker.com/build/building/best-practices/#apt-get
 # - apt and dpkg are configured in parent CC Debian trixie image

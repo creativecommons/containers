@@ -25,7 +25,6 @@ RUN set -o errexit -o nounset \
     && apt-get install --quiet --yes \
         dumb-init \
         ca-certificates \
-        msmtp-mta \
         runit \
         socklog-run \
     && apt-get clean --quiet \
@@ -41,7 +40,7 @@ RUN set -o errexit -o nounset \
     && update-service --add socklog-unix \
     && update-service --add default-syslog \
     && update-service --remove default-syslog
-COPY --parents conf.d/* color_vars.sh /etc/container/
+COPY color_vars.sh /etc/container/
 COPY --chmod=0555 setup.sh /etc/container/
 
 # Initialization
