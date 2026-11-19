@@ -49,6 +49,10 @@ jobs:
           with:
             install-only: true
 
+        # https://github.com/github/gh-actions-lock
+        - name: Install gh-actions-lock
+          run: gh extension install github/gh-actions-lock --pin v0.4.1
+
 
       # The no-commit-to-branch builtin hook is skipped to avoid false
       # positives (ex. when PRs are merged)
