@@ -40,6 +40,7 @@ RUN set -o errexit -o nounset \
     && update-service --add socklog-unix \
     && update-service --add default-syslog \
     && update-service --remove default-syslog
+COPY color_vars.sh /etc/container/
 COPY --chmod=0555 setup.sh /etc/container/
 
 # Initialization

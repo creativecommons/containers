@@ -17,4 +17,4 @@ RUN set -o errexit -o nounset \
     && rm --recursive --force /var/lib/apt/lists/*
 
 # msmtp configuration
-COPY --parents conf.d/* color_vars.sh /etc/container/
+COPY --parents conf.d/* /etc/container/
