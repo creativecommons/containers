@@ -18,7 +18,7 @@ services:
   trixie-msmtp:
     build:
       additional_contexts:
-        'ghcr.io/creativecommons/trixie:latest': 'service:trixie'
+        trixie: 'service:trixie'
       context: trixie-msmtp
     # disable the entrypoint as the image is only being built locally for use
     # by other services

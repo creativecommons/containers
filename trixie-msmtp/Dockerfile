@@ -1,8 +1,9 @@
 # https://docs.docker.com/engine/reference/builder/
 
+# GHCR actions use build_context
 # https://github.com/creativecommons/containers/pkgs/container/trixie
-# hadolint ignore=DL3007
-FROM ghcr.io/creativecommons/trixie:latest
+# hadolint ignore=DL3006
+FROM trixie
 
 # https://docs.docker.com/build/building/best-practices/#apt-get
 # - apt and dpkg are configured in parent CC Debian trixie image
