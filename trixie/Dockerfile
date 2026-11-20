@@ -3,7 +3,7 @@
 # Base operating system image
 
 # https://hub.docker.com/_/debian
-FROM debian:trixie-slim
+FROM debian:trixie-slim AS trixie
 
 # Exclude paths in dpkg to preempt cleanup
 COPY dpkg-cfg-socklog-slim /etc/dpkg/dpkg.cfg.d/socklog-slim
@@ -48,4 +48,6 @@ COPY --chmod=0555 setup.sh /etc/container/
 # 2. setup script sources any available configuration scripts
 # 3. setup execs runit's runsvdir service management
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/etc/container/setup.sh"]
-# ⚠️  NOTE: CMD is ignored. Services must be installed and enabled per runit.
+# ⚠️  NOTE:
+#    - CMD is ignored. Services must be installed and enabled per runit.
+#    - USER must be root so that ENTRYPOINT is run as root.

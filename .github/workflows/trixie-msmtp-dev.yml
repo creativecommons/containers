@@ -10,7 +10,7 @@ on:
     paths:
       - '.github/workflows/trixie-msmtp-dev.yml'
       - '.github/workflows/prek_checks.yml'
-      - 'trixie-msmtp/'
+      - 'trixie-msmtp/**'
       - '!trixie/README.md'
   workflow_dispatch:
 
@@ -76,6 +76,7 @@ jobs:
               ${{ env.OCI }}.vendor=${{ env.VENDOR }}
             tags: |
               type=ref,event=pr,suffix=-{{ sha }}
+              type=raw,priority=100,value=latest
 
         # https://github.com/docker/setup-buildx-action
         - name: Docker setup Buildx
@@ -94,6 +95,8 @@ jobs:
         uses: docker/build-push-action@v7.4.0
         with:
           annotations: ${{ steps.docker_meta.outputs.annotations }}
+          build-contexts: >-
+            trixie=docker-image://ghcr.io/creativecommons/trixie-dev:latest
           builder: ${{ steps.docker_buildx.outputs.name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
