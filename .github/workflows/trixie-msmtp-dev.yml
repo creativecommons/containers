@@ -95,7 +95,7 @@ jobs:
         with:
           annotations: ${{ steps.docker_meta.outputs.annotations }}
           build-contexts: >-
-            trixie=docker-image://ghcr.io/creativecommons/trixie:latest
+            trixie=docker-image://ghcr.io/creativecommons/trixie-dev:latest
           builder: ${{ steps.docker_buildx.outputs.name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
