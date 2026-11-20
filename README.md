@@ -24,15 +24,22 @@ Local development uses Docker Compose and a suite of static analysis tools.
 2. Install addititional dependencies
    macOS installation example:
    ```shell
-   brew install hadolint prek railway rsync shellcheck
+   brew install gh hadolint prek railway rsync shellcheck
    ```
-   1. Install hadolint ([Install - hadolint/hadolint][hadolint-install])
-   2. Install prek ([Installation - j178/prek][prek-install])
-   3. Install Railway CLI ([Installing - CLI | Railway Docs][railway-install])
-   4. Install Rsync ([rsync download][rsync-install])
-   5. Install shellcheck ([Installing -
+   ```shell
+   gh extension install github/gh-actions-lock
+   ```
+   1. Install gh ([Installation - github/cli/cli][intall-gh])
+   2. Install gh-actions-lock ([Install - github/gh-actinos-lock][inst-ghal])
+   3. Install hadolint ([Install - hadolint/hadolint][hadolint-install])
+   4. Install prek ([Installation - j178/prek][prek-install])
+   5. Install Railway CLI ([Installing - CLI | Railway Docs][railway-install])
+   6. Install Rsync ([rsync download][rsync-install])
+   7. Install shellcheck ([Installing -
       koalaman/shellcheck][shellcheck-install])
 
+[install-gh]: https://github.com/cli/cli#installation
+[inst-ghal]: https://github.com/github/gh-actions-lock#install
 [docker-install]: https://docs.docker.com/get-started/get-docker/
 [hadolint-install]: https://github.com/hadolint/hadolint#install
 [prek-install]: https://github.com/j178/prek#installation
