@@ -94,7 +94,8 @@ jobs:
         uses: docker/build-push-action@v7.4.0
         with:
           annotations: ${{ steps.docker_meta.outputs.annotations }}
-          build-contexts: trixie=ghcr.io/creativecommons/trixie:latest
+          build-contexts: >-
+            trixie=docker-image://ghcr.io/creativecommons/trixie:latest
           builder: ${{ steps.docker_buildx.outputs.name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
