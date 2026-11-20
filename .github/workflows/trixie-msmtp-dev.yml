@@ -76,6 +76,7 @@ jobs:
               ${{ env.OCI }}.vendor=${{ env.VENDOR }}
             tags: |
               type=ref,event=pr,suffix=-{{ sha }}
+              type=raw,priority=100,value=latest
 
         # https://github.com/docker/setup-buildx-action
         - name: Docker setup Buildx
