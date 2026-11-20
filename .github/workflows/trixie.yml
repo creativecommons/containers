@@ -11,7 +11,7 @@ on:
     paths:
       - '.github/workflows/trixie.yml'
       - '.github/workflows/prek_checks.yml'
-      - 'trixie/'
+      - 'trixie/**'
       - '!trixie/README.md'
   workflow_dispatch:
 

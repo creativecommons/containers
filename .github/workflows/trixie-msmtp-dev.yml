@@ -10,7 +10,7 @@ on:
     paths:
       - '.github/workflows/trixie-msmtp-dev.yml'
       - '.github/workflows/prek_checks.yml'
-      - 'trixie-msmtp/'
+      - 'trixie-msmtp/**'
       - '!trixie/README.md'
   workflow_dispatch:
 
