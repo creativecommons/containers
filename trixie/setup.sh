@@ -3,7 +3,7 @@
 # Comptabile with Dash (the Debian Almquist shell)
 set -o errexit
 set -o nounset
-
+exec 2>&1
 . /etc/container/color_vars.sh
 
 #### FUNCTIONS ################################################################
@@ -86,6 +86,5 @@ done
 # Prep and execute runit service management
 # Based on /etc/runit/2
 mkdir --parents /run/runit/supervise
-/lib/runit/trigger_sv setup
 runsvchdir default
 exec runsvdir -P /etc/service 'log: ...........................................................................................................................................................................................................................................................................................................................................................................................................'
