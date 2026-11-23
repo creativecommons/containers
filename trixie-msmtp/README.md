@@ -26,48 +26,32 @@ platform for application images.
 > `CMD` is ignored by this image. Instead service(s) must be installed and
 > enabled per runit.
 
-[docker-trixie]: https://hub.docker.com/_/debian
+
+### Images
+
+The images are deployed via GitHub Actions to the GitHub Container Registry
+(GHCR):
+- [`trixie-msmtp`][image]
+  - Built from `main` branch: [`../.github/workflows/trixie-msmtp.yml`][build]
+- [`trixie-msmtp-dev`][image-dev]
+  - Built from pull requests:
+    [`../.github/workflows/trixie-msmtp-dev.yml`][build-dev]
+
+[image]: https://github.com/creativecommons/containers/pkgs/container/trixie-msmtp
+[build]: ../.github/workflows/trixie.yml
+[image-dev]: https://github.com/creativecommons/containers/pkgs/container/trixie-msmtp-dev
+[build-dev]: ../.github/workflows/trixie-msmtp-dev.yml
 
 
-## Configuration
+### Parent images
 
-See [`../trixie/README.md`](../trixie/README.md).
-
-
-### msmtp
-
-- [`conf.d/msmtp.sh`](conf.d/msmtp.sh)
+1. [`trixie`](../trixie/), includes documentation on:
+   - setup.sh configuration
+   - Debian
+   - Runit services
 
 
-### Services
-
-See [`../trixie/README.md`](../trixie/README.md).
-
-
-## Deployment
-
-The image is deployed via GitHub Actions to the GitHub Container Registry
-(GHCR). See the workflows for details:
-- `main` branch: [`../.github/workflows/trixie-msmtp.yml`][build]
-- all other branches: [`../.github/workflows/trixie-msmtp-dev.yml`][build-dev]
-
-[build]: ../.github/workflows/trixi-msmtp.yml
-[build]: ../.github/workflows/trixie-msmtp-dev.yml
-
-
-## Extending
-
-See [`../trixie/README.md`](../trixie/README.md).
-
-
-### Application services
-
-See [`../trixie/README.md`](../trixie/README.md).
-
-
-## Additional references
-
-See [`../trixie/README.md`](../trixie/README.md).
+## Documentation
 
 
 ### msmtp
@@ -75,7 +59,6 @@ See [`../trixie/README.md`](../trixie/README.md).
 - [msmtp - about][msmtp]
   - [msmtp manual in HTML format][msmtp-man]
 - [msmtp(1) — msmtp — Debian trixie — Debian Manpages][msmtp-debman]
-
 
 [msmtp]: https://marlam.de/msmtp/
 [msmtp-man]: https://marlam.de/msmtp/msmtp.html
