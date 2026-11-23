@@ -7,10 +7,14 @@ container images).
 ## Images
 
 - `trixie`
-  - Documetnation: [trixie/](trixie/)
+  - Documentation: [trixie/](trixie/)
   - GHCR: [Package trixie][pkg-trixie]
+- `trixie-msmtp`
+  - Documentation: [trixie-msmtp/](trixie-msmtp/)
+  - GHCR: [Package trixie-msmtp][pkg-trixie-msmtp]
 
 [pkg-trixie]: https://github.com/creativecommons/containers/pkgs/container/trixie
+[pkg-trixie-msmtp]: https://github.com/creativecommons/containers/pkgs/container/trixie-msmtp
 
 
 ## Development
@@ -21,31 +25,29 @@ Local development uses Docker Compose and a suite of static analysis tools.
 ### Dependencies
 
 1. Install Docker ([Get Docker | Docker Docs][docker-install])
-2. Install addititional dependencies
-   macOS installation example:
+2. Install additional dependencies
+   macOS installation example (assumes [Homebrew][brew]):
    ```shell
-   brew install gh hadolint prek railway rsync shellcheck
+   brew install gh hadolint prek shellcheck
    ```
    ```shell
    gh extension install github/gh-actions-lock
    ```
-   1. Install gh ([Installation - github/cli/cli][intall-gh])
-   2. Install gh-actions-lock ([Install - github/gh-actinos-lock][inst-ghal])
-   3. Install hadolint ([Install - hadolint/hadolint][hadolint-install])
-   4. Install prek ([Installation - j178/prek][prek-install])
-   5. Install Railway CLI ([Installing - CLI | Railway Docs][railway-install])
-   6. Install Rsync ([rsync download][rsync-install])
-   7. Install shellcheck ([Installing -
+   1. Install hadolint ([Install - hadolint/hadolint][hadolint-install])
+   2. Install prek ([Installation - j178/prek][prek-install])
+   3. Install shellcheck ([Installing -
       koalaman/shellcheck][shellcheck-install])
+   4. Install gh ([Installation - github/cli/cli][gh-install])
+   5. Install gh-actions-lock ([Install - github/gh-actinos-lock][lock-install])
 
-[install-gh]: https://github.com/cli/cli#installation
-[inst-ghal]: https://github.com/github/gh-actions-lock#install
+
 [docker-install]: https://docs.docker.com/get-started/get-docker/
+[brew]: https://brew.sh/
 [hadolint-install]: https://github.com/hadolint/hadolint#install
 [prek-install]: https://github.com/j178/prek#installation
-[railway-install]: https://docs.railway.com/cli#installing-the-cli
-[rsync-install]: https://rsync.samba.org/download.html
 [shellcheck-install]: https://github.com/koalaman/shellcheck#installing
+[gh-install]: https://github.com/cli/cli#installation
+[lock-install]: https://github.com/github/gh-actions-lock#install
 
 
 ## Setup
@@ -54,7 +56,7 @@ Local development uses Docker Compose and a suite of static analysis tools.
    ```shell
    prek install --prepare-hooks
    ```
-2. Create the enviornment `.env` file by copying
+2. Create the environment `.env` file by copying
    [`.env.example`](.env.example):
     ```shell
     cp .env.example .env
