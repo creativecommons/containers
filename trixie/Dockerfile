@@ -45,9 +45,10 @@ COPY --chmod=0555 setup.sh /etc/container/
 
 # Initialization
 # 1. dumb-init is a signal repeater that defaults to process group mode
-# 2. setup script sources any available configuration scripts
-# 3. setup execs runit's runsvdir service management
+# 2. setup.sh sources any available configuration scripts
+# 3. setup.sh execs Runit's runsvdir service management
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/etc/container/setup.sh"]
+
 # ⚠️  NOTE:
 #    - CMD is ignored. Services must be installed and enabled per runit.
 #    - USER must be root so that ENTRYPOINT is run as root.

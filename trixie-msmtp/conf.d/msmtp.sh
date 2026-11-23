@@ -1,7 +1,7 @@
 #!/bin/sh
 # Comptabile with Dash (the Debian Almquist shell)
 #
-# This file is sourced by /etc/runit/boot-run/setup.sh
+# This file is sourced by /etc/container/setup.sh
 # (It shouldn't be executed directly)
 
 _APP='msmtp'

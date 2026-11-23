@@ -19,3 +19,7 @@ RUN set -o errexit -o nounset \
 
 # msmtp configuration
 COPY --parents conf.d/* /etc/container/
+
+# ⚠️  NOTE:
+#    - CMD is ignored. Services must be installed and enabled per runit.
+#    - USER must be root so that ENTRYPOINT is run as root.

@@ -14,7 +14,7 @@ for application images.
 - **Notable inclusions:**
   1. `dumb-init` to manage processes (init, PID 1)
   2. `runit` to manage services
-  3. `socklog` to send syslog messages to init stdout (docker log)
+  3. `socklog` to send syslog messages to init stdout (Docker log)
 - **Required variables:**
   - _none_
 
@@ -25,55 +25,53 @@ for application images.
 [docker-trixie]: https://hub.docker.com/_/debian
 
 
-## Configuration
+### Images
+
+The images are deployed via GitHub Actions to the GitHub Container Registry
+(GHCR):
+- [`trixie`][image]
+  - Built from `main` branch: [`../.github/workflows/trixie.yml`][build]
+- [`trixie-dev`][image-dev]
+  - Built from pull requests:
+    [`../.github/workflows/trixie-dev.yml`][build-dev]
+
+[image]: https://github.com/creativecommons/containers/pkgs/container/trixie
+[build]: ../.github/workflows/trixie.yml
+[image-dev]: https://github.com/creativecommons/containers/pkgs/container/trixie-dev
+[build-dev]: ../.github/workflows/trixie-dev.yml
+
+
+## setup.sh configuration
 
 When the image starts up, the `/etc/container/setup.sh`
 ([`setup.sh`](setup.sh)) script does three important things:
 1. Provides helper functions and variables
 2. Sources configurations scripts in `/etc/container/conf.d/` that end with
    `.sh`
+3. Execs Runit's `runsvdir` to begin service management
 
-
-### Configuration scripts
-
-- [`conf.d/msmtp.sh`](conf.d/msmtp.sh)
-
-
-### Services
-
-
-## Deployment
-
-The image is deployed via GitHub Actions to the GitHub Container Registry
-(GHCR). See the workflows for details:
-- `main` branch: [`../.github/workflows/trixie.yml`][build]
-- all other branches: [`../.github/workflows/trixie-dev.yml`][build-dev]
-
-[build]: ../.github/workflows/trixi.yml
-[build]: ../.github/workflows/trixie-dev.yml
-
-
-## Extending
-
-Application images that use this image (`FROM docker pull
-ghcr.io/creativecommons/trixie:latest`) can provide configuration files and
-_must_ add a service instead of using `CMD`.
-
-
-### Application configuration
-
-Application docker images can include their own `conf.d/` scripts and specify
-the application executable via the Docker `CMD`.
-
-Configuration scripts _must_ be writtin for Dash (the Debian Almquist shell).
-Using a `#!/bin/sh` shebang will ensure Shellcheck issues warnings about syntax
-that is not compliant with POSIX.
+Configuration scripts in `/etc/container/conf.d/` _must_ be writtin for Dash
+(the Debian Almquist shell).  Using a `#!/bin/sh` shebang will ensure
+Shellcheck issues warnings about syntax that is not compliant with POSIX.
 - [dash(1) — dash — Debian buster — Debian Manpages][man-dash]
 
 [man-dash]: https://manpages.debian.org/buster/dash/dash.1.en.html
 
 
-### Application services
+## Documentation
+
+
+### Debian
+
+- [debian - Official Image | Docker Hub][docker-trixie]
+- [Release Notes for Debian 13 (trixie) — release-notes
+  documentation][trixie-release]
+
+[docker-trixie]: https://hub.docker.com/_/debian
+[trixie-release]: https://www.debian.org/releases/trixie/release-notes/index.en.html
+
+
+### Runit services
 
 Runit service related documentation:
 - [How do I create a new service directory - runit - frequently asked
@@ -85,16 +83,3 @@ Runit service related documentation:
 [runit-create]: https://smarden.org/runit/faq#create
 [void-services]: https://docs.voidlinux.org/config/services/index.html#service-directories
 [man-runsv]: https://manpages.debian.org/trixie/runit/runsv.8.en.html
-
-
-## Additional references
-
-
-### Debian
-
-- [debian - Official Image | Docker Hub][docker-trixie]
-- [Release Notes for Debian 13 (trixie) — release-notes
-  documentation][trixie-release]
-
-[docker-trixie]: https://hub.docker.com/_/debian
-[trixie-release]: https://www.debian.org/releases/trixie/release-notes/index.en.html
