@@ -1,0 +1,8 @@
+#!/bin/sh
+set -o errexit
+exec 2>&1
+sv start socklog-unix >/dev/null \
+    && sv check socklog-unix >/dev/null \
+    || exit 170
+apache2ctl -v
+exec apache2ctl -D FOREGROUND -k start

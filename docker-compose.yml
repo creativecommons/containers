@@ -5,14 +5,27 @@ name: cc
 
 services:
 
+  # Creative Commons Apache2/PHP
+  apache2php:
+    build:
+      additional_contexts:
+        trixie-msmtp: "service:trixie-msmtp"
+      context: apache2php
+    # disable the entrypoint as the image is only being built locally for use
+    # by other services
+    entrypoint: /bin/true
+    image: apache2php
+
   # Local development overlay
   localdev:
     build:
       additional_contexts:
-        parent_image: "service:trixie-msmtp"
+        parent_image: "service:apache2php"
       context: localdev
     # command: DON'T USE - command/CMD is ignored
     env_file: .env
+    ports:
+      - '8001:80'
 
   # Creative Commons Debian 13 (trixie) with runit
   trixie:
@@ -39,4 +52,4 @@ services:
     build:
       context: util-raw
     ports:
-      - '8000:8000'
+      - '8002:8000'
