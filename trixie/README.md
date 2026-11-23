@@ -13,6 +13,8 @@ for application images.
 - **Docker `CMD`:** _unset, ignored_
 - **Notable inclusions:**
   1. `dumb-init` to manage processes (init, PID 1)
+  2. `locales` set to `en_US.utf8` except for `LC_TIME` set to `en_DK` for
+     better (ISO 8601) datetime formatting
   2. `runit` to manage services
   3. `socklog` to send syslog messages to init stdout (Docker log)
 - **Required variables:**

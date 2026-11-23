@@ -6,7 +6,7 @@
 FROM debian:trixie-slim AS trixie
 
 # Exclude paths in dpkg to preempt cleanup
-COPY dpkg-cfg-socklog-slim /etc/dpkg/dpkg.cfg.d/socklog-slim
+COPY dpkg.cfg.d/* /etc/dpkg/dpkg.cfg.d/
 
 # https://docs.docker.com/build/building/best-practices/#apt-get
 # 1. Configure apt to avoid optional packages
@@ -25,11 +25,29 @@ RUN set -o errexit -o nounset \
     && apt-get install --quiet --yes \
         dumb-init \
         ca-certificates \
+        locales \
         runit \
         socklog-run \
     && apt-get clean --quiet \
     && rm --recursive --force /var/lib/apt/lists/* \
     && update-ca-certificates
+
+# Locale configuration
+ENV LANG="en_US.utf8"
+# en_DK has better (ISO 8601) datetime formatting
+ENV LC_TIME="en_DK.utf8"
+RUN set -o errexit -o nounset \
+    && mv /usr/share/i18n/SUPPORTED /usr/share/i18n/SUPPORTED.orig \
+    && printf 'C.UTF-8 UTF-8\nen_DK.UTF-8 UTF-8\nen_US.UTF-8 UTF-8\n' \
+        > /usr/share/i18n/SUPPORTED \
+    && ls -lR /usr/share/i18n \
+    && sed --regexp-extended --in-place \
+        -e's/^# *(C.UTF-8 UTF-8)/\1/' \
+        -e's/^# *(en_DK.UTF-8 UTF-8)/\1/' \
+        -e's/^# *(en_US.UTF-8 UTF-8)/\1/' \
+        /etc/locale.gen \
+    && locale-gen \
+    && update-locale --reset LANG=en_US.utf8
 
 # Runit configuration
 # - The default-syslog service is handled specially by runit (packages has
