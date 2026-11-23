@@ -1,0 +1,64 @@
+name: Update Cloudflare IPs
+on:
+  schedule:
+    - cron: 0 13 * * *
+  workflow_dispatch:
+
+jobs:
+  cloudflare_ips:
+    runs-on: ubuntu-latest
+    steps:
+
+      # https://github.com/actions/checkout
+      - name: Checkout repository
+        uses: actions/checkout@v7.0.1
+
+      # Install ipv6calc
+      - name: Install ipv6calc
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          apt-get update --quiet
+          apt-get install \
+            --no-install-recommends --no-install-suggests --quiet --yes \
+            ipv6calc
+
+      - name: Update IPv4 list
+        run: |
+          curl --http2 --raw --silent https://www.cloudflare.com/ips-v4 \
+            | sort -V \
+            > apache2php/cloudflare-ips-v4.txt
+
+      - name: Update IPv4 list
+        run: |
+          curl --http2 --raw --silent https://www.cloudflare.com/ips-v6 \
+            | ipv6calc --addr_to_fulluncompressed \
+            | sort \
+            | ipv6calc --addr_to_compressed \
+            > apache2php/cloudflare-ips-v6.txt
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [[ -n "$(git diff --exit-code)" ]]
+          then
+            echo "Changes detected."
+            echo "::set-output name=has_changes::true"
+          else
+            echo "No changes detected."
+            echo "::set-output name=has_changes::false"
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          # configure user
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email \
+            "${{ github.actor }}@users.noreply.github.com"
+          # stage any file changes to be committed
+          git add apache2php/cloudflare-ips-v*.txt
+          # make commit with staged changes
+          git commit -m 'Update Cloudflare IPs'
+          # push the commit back up to source GitHub repository
+          git push
