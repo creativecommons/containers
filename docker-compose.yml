@@ -20,7 +20,7 @@ services:
   localdev:
     build:
       additional_contexts:
-        apache2php: "service:apache2php"
+        parent_image: "service:apache2php"
       context: localdev
     # command: DON'T USE - command/CMD is ignored
     env_file: .env
