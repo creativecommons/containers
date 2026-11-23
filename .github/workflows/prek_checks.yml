@@ -1,4 +1,3 @@
-# Note:
 # https://docs.github.com/en/actions/concepts/security/workflow-dependency-lockfiles
 name: prek checks
 on: [workflow_call, workflow_dispatch]

@@ -1,9 +1,7 @@
-# Note:
 # https://docs.github.com/en/actions/concepts/security/workflow-dependency-lockfiles
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
 name: 'trixie-dev'
-# GHCR: GitHub Container Registry
 
 on:
   pull_request:
