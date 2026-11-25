@@ -1,9 +1,7 @@
-# Note:
 # https://docs.github.com/en/actions/concepts/security/workflow-dependency-lockfiles
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
 name: 'trixie-msmtp'
-# GHCR: GitHub Container Registry
 
 on:
   push:
@@ -93,12 +91,13 @@ jobs:
           build-contexts: >-
             trixie=docker-image://ghcr.io/creativecommons/trixie:latest
           builder: ${{ steps.docker_buildx.outputs.name }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # doesn't cache to ensure timely security updates
           context: trixie-msmtp
           labels: ${{ steps.docker_meta.outputs.labels }}
           platforms: ${{ steps.docker_buildx.outputs.platforms }}
           provenance: false
+          # pull to ensure timely security updates
+          pull: true
           push: true
           sbom: false
           tags: ${{ steps.docker_meta.outputs.tags }}

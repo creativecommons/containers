@@ -18,8 +18,8 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          apt-get update --quiet
-          apt-get install \
+          sudo apt-get update --quiet
+          sudo apt-get install \
             --no-install-recommends --no-install-suggests --quiet --yes \
             ipv6calc
 
