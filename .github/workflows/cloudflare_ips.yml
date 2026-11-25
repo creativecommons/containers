@@ -10,8 +10,10 @@ jobs:
     steps:
 
       # https://github.com/actions/checkout
-      - name: Checkout repository
+      - name: Checkout repository with SSH key
         uses: actions/checkout@v7.0.1
+        with:
+          ssh-key: ${{ secrets.CONTAINERS_DEPLOY_KEY }}
 
       # Install ipv6calc
       - name: Install ipv6calc
@@ -42,15 +44,16 @@ jobs:
         run: |
           if [[ -n "$(git diff --exit-code)" ]]
           then
-            echo "Changes detected."
-            echo "::set-output name=has_changes::true"
+            echo 'HAS_CHANGES=true' >> $GITHUB_OUTPUT
+            echo "Changes detected:"
+            git diff --name-status
           else
+            echo 'HAS_CHANGES=false' >> $GITHUB_OUTPUT
             echo "No changes detected."
-            echo "::set-output name=has_changes::false"
           fi
 
       - name: Commit and push changes
-        if: steps.check_changes.outputs.has_changes == 'true'
+        if: steps.check_changes.outputs.HAS_CHANGES == 'true'
         run: |
           # configure user
           git config --global user.name "${{ github.actor }}"
